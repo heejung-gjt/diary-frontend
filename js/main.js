@@ -44,6 +44,11 @@ const renderDetail = (item)=> {
   return response.json()
 }).then(function (data) {
   console.log('세부페이지',data, data['article'][0]['id'])
+  let create_date = new Date(parseInt(data['article'][0]['created_at'])*1000); 
+  create_date = create_date.getFullYear()+"/"+(create_date.getMonth()+1)+"/"+create_date.getDate()+" "+create_date.getHours()+":"+create_date.getMinutes()
+
+  console.log(create_date)
+  // console.log(data['article'][0]['created_at'], parseInt(data['article'][0]['created_at'])*1000, ['created_at'], create_date)
   // const detail = todos.filter(todo => todo.id === +item);
   // const { title, content, date, edited, img } = data['article']
   // console.log('ddd', title)
@@ -57,7 +62,7 @@ const renderDetail = (item)=> {
   <span class="toggle detail-span-title">${data['article'][0]['title']}</span>
   <div class="toggle detail-date">
   <span class="detail-span-date"><span class="far fa-calendar"></span>posted
-    on<span class="date-underline">${data['article'][0]['created_at']}</span></span><span class="detail-span-edited"><span
+    on<span class="date-underline">${create_date}</span></span><span class="detail-span-edited"><span
       class="far fa-calendar-check"></span>Edited on<span
       class="date-underline edited-date">${data['article'][0]['updated_at']}</span></span>
   </div>
@@ -102,12 +107,14 @@ const getTodos = () => {
 
     console.log(data['articles'][0], data.length)
     for(let i = 0; i < data['articles'].length; i ++){
+      let create_date = new Date(parseInt(data['articles'][i]['created_at'])*1000); 
+      create_date = create_date.getFullYear()+"/"+(create_date.getMonth()+1)+"/"+create_date.getDate()
       console.log(data['articles'][i]['id'])
       $mainItems.innerHTML += 
       `<li class="li-item li-item${data['articles'][i]['id']}">
       <img src="${data['articles'][i]['image']}" alt="item이미지" class="img">
       <span class="far fa-times-circle item-close" onclick = deleteItem('${data['articles'][i]['id']}')></span>
-      <span class="li-date">${data['articles'][i]['created_at']}</span>
+      <span class="li-date">${create_date}</span>
       <span class="li-title">${data['articles'][i]['title']}</span>
     </li>`
     }
