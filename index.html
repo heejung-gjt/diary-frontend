@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
     <title>오늘 뭐했지 ?</title>
+    <script src="js/main.js" defer></script>
 </head>
 
 <body>
@@ -19,9 +19,10 @@
         <article class="modal-upload">
             <h2 class="upload-title a11y-hidden">등록 모달창</h2>
             <p class="upload-description"><span class="fa fa-paw"></span>당신의 하루는 어땠나요 ?</p>
+            <form class="article-upload-form" action="">
             <ul class="upload-content">
                 <li class="upload-img">
-                    <input type="file" class="upload-img-input">
+                    <input type="file" class="upload-img-input", name="upload-img-input">
                     <img src="#" alt="이미지 미리보기" class="upload-preview-img" onerror="this.src='img/img5.png'">
                 </li>
                 <li class="upload-content-title">
@@ -32,7 +33,8 @@
                         placeholder="내용"></textarea>
                 </li>
             </ul>
-            <button class="upload-add-button">등록</button>
+            <button type="submit" class="upload-add-button" onclick="ArticleSubmit(event)">등록</button>
+        </form>
             <span class="fas fa-times-circle upload-close"></span>
         </article>
     </div>
@@ -64,6 +66,8 @@
             </div>
         </div>
     </section>
+
 </body>
+
 
 </html>

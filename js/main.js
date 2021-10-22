@@ -16,55 +16,76 @@ const $uploadInputTitle = document.querySelector('.upload-input-title');
 const $uploadTextarea = document.querySelector('.upload-textarea');
 let todos = [];
 let item = "";
-// // 렌더링
+
+// 렌더링
 // const render = () => {
-//   localStorage.setItem("key", JSON.stringify(todos));
+  
 //   todos = JSON.parse(localStorage.getItem("key"));
 //   $mainItems.innerHTML = todos.map(({id, title, date, img}) =>
 //   `<li class="li-item li-item${id}">
 //   <img src="${img}" alt="item이미지" class="img">
-//   <span class="far fa-times-circle item-close"></span>
+//   <span class="far fa-times-circle item-close" renderDetail('${}')></span>
 //   <span class="li-date">${date}</span>
 //   <span class="li-title">${title}</span>
 // </li>`
 //   ).join('');
 // }
-// const renderDetail = (item)=> {
-//   const detail = todos.filter(todo => todo.id === +item);
-//   const { title, content, date, edited, img } = detail[0]
-//   $detailContent.innerHTML = 
-//   `<li>
-//   <img class="detail-img" src="${img}" alt="올린이미지">
-//   </li>
-//   <li class="detail-content-title">
-//   <label for="de-title" class="a11y-hidden">제목</label>
-//   <input class="toggle detail-input-title" type="text" placeholder="제목">
-//   <span class="toggle detail-span-title">${title}</span>
-//   <div class="toggle detail-date">
-//   <span class="detail-span-date"><span class="far fa-calendar"></span>posted
-//     on<span class="date-underline">${date}</span></span><span class="detail-span-edited"><span
-//       class="far fa-calendar-check"></span>Edited on<span
-//       class="date-underline edited-date">${edited}</span></span>
-//   </div>
-//   </li>
-//   <li class="detail-content-detail">
-//     <textarea name="detail-textarea" class="toggle detail-textarea" cols="30" rows="10" placeholder="내용"></textarea>
-//     <span class="toggle detail-span-textarea">${content}</span>
-//   </li>`;
-  // document.querySelector('.detail-input-title').style.display = "none";
-  // document.querySelector('.detail-textarea').style.display = "none";
-  // document.querySelector('.buttons-confirm-cancel').style.display = "none";
-  // document.querySelector('.detail-span-title').style.display = "inline-block";
-  // document.querySelector('.detail-date').style.display = "block";
-  // document.querySelector('.detail-span-date').style.display = "inline-block";
-  // document.querySelector('.detail-span-textarea').style.display = "inline-block";
-  // document.querySelector('.detail-change-button').style.display = "inline-block";
-  // const $editedDate = document.querySelector('.edited-date');
-  // const $detailSpanEdited = document.querySelector('.detail-span-edited');
-  // $detailSpanEdited.style.display = $editedDate.textContent === "undefined" ? "none" : "inline-block";
-// }
+
+
+const renderDetail = (item)=> {
+
+  fetch(`http://127.0.0.1:8000/article/detail?id=${item}&`, {
+  method: 'GET',
+  // headers: {
+    
+  // },
+
+}).then(function (response) {
+  return response.json()
+}).then(function (data) {
+  console.log('세부페이지',data, data['article'][0]['id'])
+  // const detail = todos.filter(todo => todo.id === +item);
+  // const { title, content, date, edited, img } = data['article']
+  // console.log('ddd', title)
+  $detailContent.innerHTML = 
+  `<li>
+  <img class="detail-img" src="${data['article'][0]['image']}" alt="올린이미지">
+  </li>
+  <li class="detail-content-title">
+  <label for="de-title" class="a11y-hidden">제목</label>
+  <input class="toggle detail-input-title" type="text" placeholder="제목">
+  <span class="toggle detail-span-title">${data['article'][0]['title']}</span>
+  <div class="toggle detail-date">
+  <span class="detail-span-date"><span class="far fa-calendar"></span>posted
+    on<span class="date-underline">${data['article'][0]['created_at']}</span></span><span class="detail-span-edited"><span
+      class="far fa-calendar-check"></span>Edited on<span
+      class="date-underline edited-date">${data['article'][0]['updated_at']}</span></span>
+  </div>
+  </li>
+  <li class="detail-content-detail">
+    <textarea name="detail-textarea" class="toggle detail-textarea" cols="30" rows="10" placeholder="내용"></textarea>
+    <span class="toggle detail-span-textarea">${data['article'][0]['content']}</span>
+  </li>`;
+  document.querySelector('.detail-input-title').style.display = "none";
+  document.querySelector('.detail-textarea').style.display = "none";
+  document.querySelector('.buttons-confirm-cancel').style.display = "none";
+  document.querySelector('.detail-span-title').style.display = "inline-block";
+  document.querySelector('.detail-date').style.display = "block";
+  document.querySelector('.detail-span-date').style.display = "inline-block";
+  document.querySelector('.detail-span-textarea').style.display = "inline-block";
+  document.querySelector('.detail-change-button').style.display = "inline-block";
+  const $editedDate = document.querySelector('.edited-date');
+  const $detailSpanEdited = document.querySelector('.detail-span-edited');
+  $detailSpanEdited.style.display = $editedDate.textContent === "undefined" ? "none" : "inline-block";
+
+
+}).catch((error) => {
+  console.log('error', error);
+})
+
+  }
+
 const getTodos = () => {
-  console.log('여기 작동은 하나 ?')
   // ajax로 backend에 요청 !
   
   fetch("http://127.0.0.1:8000/", {
@@ -78,14 +99,16 @@ const getTodos = () => {
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    for(let i = 0; i < data.length; i ++){
-      console.log(i)
+
+    console.log(data['articles'][0], data.length)
+    for(let i = 0; i < data['articles'].length; i ++){
+      console.log(data['articles'][i]['id'])
       $mainItems.innerHTML += 
-      `<li class="li-item li-item${data[i]['id']}">
-      <img src="${data[i]['img']}" alt="item이미지" class="img">
-      <span class="far fa-times-circle item-close"></span>
-      <span class="li-date">${data[i]['date']}</span>
-      <span class="li-title">${data[i]['title']}</span>
+      `<li class="li-item li-item${data['articles'][i]['id']}">
+      <img src="${data['articles'][i]['image']}" alt="item이미지" class="img">
+      <span class="far fa-times-circle item-close" onclick = deleteItem('${data['articles'][i]['id']}')></span>
+      <span class="li-date">${data['articles'][i]['created_at']}</span>
+      <span class="li-title">${data['articles'][i]['title']}</span>
     </li>`
     }
   }).catch((error) => {
@@ -93,10 +116,9 @@ const getTodos = () => {
   })
   }
 
-
-
 // getTodos
 document.addEventListener("DOMContentLoaded", getTodos);
+
 // 등록 클릭 시 등록 모달창 display
 $mainSubmit.onclick = () => {
   $modalUploadLayer.style.display = 'inherit'
@@ -140,20 +162,20 @@ const addTodo = (title, content, date, img) => {
   todos = [todo, ...todos];
   render();
 };
-$uploadAddButton.onclick = () => {
-  if (!$uploadInputTitle.value || !$uploadTextarea.value || !reader.result) {
-      alert('제목과 내용, 이미지 모두 입력해주세요.')
-      return
-  }
-  const title = $uploadInputTitle.value;
-  const content = $uploadTextarea.value;
-  let date = new Date();
-  date = date.toISOString().slice(0, 10);
-  const img = reader.result
-  closeUploadModal();
-  addTodo(title, content, date, img);
-  reader = "";
-};
+// $uploadAddButton.onclick = () => {
+//   if (!$uploadInputTitle.value || !$uploadTextarea.value || !reader.result) {
+//       alert('제목과 내용, 이미지 모두 입력해주세요.')
+//       return
+//   }
+  // const title = $uploadInputTitle.value;
+  // const content = $uploadTextarea.value;
+  // let date = new Date();
+  // date = date.toISOString().slice(0, 10);
+  // const img = reader.result
+  // closeUploadModal();
+  // addTodo(title, content, date, img);
+  // reader = "";
+// };
 // x버튼 클릭 시 item 삭제
 const deleteItem = (item) => {
   todos = todos.filter(todo => todo.id !== +item);
@@ -263,3 +285,54 @@ $uploadPreviewImg.onclick = () => {
   $uploadImgInput.click();
 }
 
+
+
+function ArticleSubmit(e) {
+  e.preventDefault();
+  console.log('d')
+  if (!$uploadInputTitle.value || !$uploadTextarea.value || !reader.result) {
+    alert('제목과 내용, 이미지 모두 입력해주세요.')
+    return
+    
+  }
+  document.querySelector('.article-upload-form').addEventListener('submit', CreateArticle(e));
+  closeUploadModal();
+}
+
+function CreateArticle(e) {
+  event.preventDefault();
+image = document.querySelector('.upload-img-input').files[0];
+title = document.querySelector('.upload-input-title').value;
+content = document.querySelector('.upload-textarea').value;
+// imageList = image.files;
+let reader = new FileReader();
+let formData = new FormData();
+formData.append('image', image);
+formData.append('title', title);
+formData.append('content', content);
+  // }
+let param = {
+  'image': formData,
+  'title': title,
+  'content': content,
+
+}
+console.log(formData.getAll('item'));
+// ajax통신
+fetch("http://127.0.0.1:8000/article/create/", {
+  method: 'POST',
+  headers: {
+  },
+  // enctype: 'multipart/form-data',
+  body: formData
+}).then(function (response) {
+  return response.json()
+}).then(function (data) {
+
+  location.href="http://127.0.0.1:5500/index.html";
+
+}).catch((error) => {
+  console.log('error', error);
+})
+
+  }
