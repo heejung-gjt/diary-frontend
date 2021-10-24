@@ -55,6 +55,29 @@
     <section class="detail">
         <h2 class="detail-title a11y-hidden">세부내용</h2>
         <ul class="detail-content">
+            <li>
+                <img class="detail-img" src="" alt="올린이미지">
+                <div class="profile-upload-img">
+                  <input class="profile-image-file profile-upload-img-input" type="file" name="image" width="50" ><br>
+                  <img src="#" class="profile-upload-preview-img" onerror="this.src='img/img5.png'">
+                  <!-- <img src="" alt="" class="profile-upload-preview-img" onclick="UploadModifyImg(event)"  > -->
+                </div>
+                </li>
+                <li class="detail-content-title">
+                <label for="de-title" class="a11y-hidden">제목</label>
+                <input class="toggle detail-input-title" type="text" placeholder="제목">
+                <span class="toggle detail-span-title"></span>
+                <div class="toggle detail-date">
+                <span class="detail-span-date"><span class="far fa-calendar"></span>posted
+                  on<span class="date-underline"></span></span><span class="detail-span-edited"><span
+                    class="far fa-calendar-check"></span>Edited on<span
+                    class="date-underline edited-date">${update_date}</span></span>
+                </div>
+                </li>
+                <li class="detail-content-detail">
+                  <textarea name="detail-textarea" class="toggle detail-textarea" cols="30" rows="10" placeholder="내용"></textarea>
+                  <span class="toggle detail-span-textarea"></span>
+                </li>
         </ul>
         <button class="detail-btn"><span class="fas fa-chevron-up"></span><span
                 class="fas fa-chevron-up"></span></button>
