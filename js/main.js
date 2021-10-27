@@ -427,7 +427,7 @@ const CreateArticle = (e) => {
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    location.href = "http://127.0.0.1:5500/index.html";
+    location.href = "http://127.0.0.1:5501/index.html";
   }).catch((error) => {
     console.log('error', error);
   })
