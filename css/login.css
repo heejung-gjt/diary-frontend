@@ -1,0 +1,121 @@
+.login-modal-box,
+.signup-modal-box  {
+  padding: 20px;
+  text-align: center;
+  position: absolute;
+  background-color: rgb(225, 229, 233);
+  box-shadow: 0px 0px 20px 0px gray;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px;
+  height: auto;
+  border-radius: 20px;
+}
+.login-main,
+.signup-main{
+  position: relative;
+  width: 60%;
+  min-height: 90vh;
+  border-radius: 15px;
+  margin: 50px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-login-layer,
+.modal-signup-layer {
+  z-index: 10;
+  top:0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.login-description,
+.signup-description{
+  letter-spacing:5px;
+  font-size: 1.4em;
+  font-weight: 100;
+  color: rgb(15, 15, 15);
+  height: 250px;
+}
+.login-main-img,
+.signup-main-img{
+  width: 100%;
+  height: 100%;
+}
+.login-a,
+.signup-a{
+  list-style: none;
+  text-decoration: none;
+  color: black;
+}
+/* 회원가입/로그인 버튼 변경부분 */
+.kakao-btn{
+  text-align: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  margin: 25px 0 5px 0;
+  background-color:#FEF01B ;
+  border-radius: 3%;
+  transition: all 300ms;
+  cursor: pointer;
+}
+.kakao-btn:hover{
+  box-shadow: 0px 0px 8px 0px rgb(184, 181, 181);
+}
+
+
+.kakao-span{
+  font-weight: 600;
+  align-items: center;
+  line-height: 5.8;
+  font-size: .7rem;
+  margin-left: 10px;
+}
+
+.kakao-btn i{
+  font-size: 1.2rem;
+}
+
+/* 일반로그인 스타일링 */
+.login-form,
+.signup-form{
+  width: 100%;
+  margin-top: 30px;
+}
+.login-form .username,
+.login-form .password,
+.signup-form .username,
+.signup-form .password{
+  width: 100%;
+  padding: 20px 5px;
+  border: none;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.login-btn,
+.signup-btn{
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 20px 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 300ms;
+  background-color: rgb(130, 192, 253);
+}
+.login-btn:hover
+.signup-btn:hover{
+  box-shadow: 0px 0px 8px 0px rgb(184, 181, 181);
+}
+.signup,
+.signin{
+  border: none;
+  cursor: pointer;
+  background-color: rgb(225, 229, 233);
+}

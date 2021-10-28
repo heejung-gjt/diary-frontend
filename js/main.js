@@ -88,17 +88,22 @@ const renderDetail = (item) => {
 }
 
 const getTodos = () => {
-  // ajax로 backend에 요청 !
-
+  console.log('흠 여기로 안옵니까')
+  Authorization = localStorage.getItem('access_token')
   fetch("http://127.0.0.1:8000/", {
     method: 'GET',
     headers: {
-      "X-Requested-With": "XMLHttpRequest"
+      // "X-Requested-With": "XMLHttpRequest",
+      "Origin":"http://127.0.0.1:5501/",
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "access-control-allow-headers,access-control-allow-methods,access-control-allow-origin,authorization,content-type",
+      "Content-Type" : "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with, application/json, text/html, charset=utf-8",
+      "authorization":Authorization,
     },
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-
     console.log(data['articles'][0], data.length)
     for (let i = 0; i < data['articles'].length; i++) {
       let create_date = new Date(parseInt(data['articles'][i]['created_at']) * 1000);
@@ -117,8 +122,9 @@ const getTodos = () => {
   })
 }
 
+
 // getTodos
-document.addEventListener("DOMContentLoaded", getTodos);
+// document.addEventListener("DOMContentLoaded", getTodos);
 
 // 등록 클릭 시 등록 모달창 display
 $mainSubmit.onclick = () => {
