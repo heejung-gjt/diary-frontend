@@ -369,6 +369,16 @@ body{
   animation-duration: 1.6s;
   letter-spacing: 5px;
 }
+.main-user-infor{
+  height: 50px;
+  margin: 0px 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.6em;
+  margin: 40px 50px;
+  font-weight: bold;
+}
 @keyframes titleAni{
   0%{
       opacity: 0;

@@ -25,10 +25,12 @@ let item = "";
 
 
 const renderDetail = (item) => {
-
+  Authorization = localStorage.getItem('access_token')
   fetch(`http://127.0.0.1:8000/article/detail?id=${item}&`, {
     method: 'GET',
-
+    headers : {
+      "authorization": Authorization
+    },
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
@@ -88,18 +90,24 @@ const renderDetail = (item) => {
 }
 
 const getTodos = () => {
-  // ajax로 backend에 요청 !
-
+  if (localStorage.getItem('access_token') ==  null){
+    window.location.replace("http://127.0.0.1:5501/login.html");
+  }
+  Authorization = localStorage.getItem('access_token')
+  console.log(Authorization)
+  console.log('안뇽......')
   fetch("http://127.0.0.1:8000/", {
     method: 'GET',
     headers: {
-      "X-Requested-With": "XMLHttpRequest"
+      
+      "authorization":Authorization,
     },
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-
-    console.log(data['articles'][0], data.length)
+    console.log(data['user'][0]['userid'])
+    console.log(data)
+    document.querySelector('.main-user-infor').innerText = `환영해요 ! ${data['user'][0]['userid']}님`
     for (let i = 0; i < data['articles'].length; i++) {
       let create_date = new Date(parseInt(data['articles'][i]['created_at']) * 1000);
       create_date = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate()
@@ -117,7 +125,7 @@ const getTodos = () => {
   })
 }
 
-// getTodos
+
 document.addEventListener("DOMContentLoaded", getTodos);
 
 // 등록 클릭 시 등록 모달창 display
@@ -179,11 +187,16 @@ const addTodo = (title, content, date, img) => {
 
 // x버튼 클릭 시 item 삭제
 const deleteItem = (id) => {
+  Authorization = localStorage.getItem('access_token')
+
   param = {
     'id': id
   }
   fetch("http://127.0.0.1:8000/article/delete/", {
     method: 'POST',
+    headers: {
+      "authorization" : Authorization
+    },
     body: JSON.stringify(param)
   }).then(function (response) {
     return response.json()
@@ -206,6 +219,7 @@ const deleteItem = (id) => {
 }
 
 const scrollDetail = () => {
+
   $detail.scrollIntoView({
     block: 'start',
     behavior: 'smooth',
@@ -415,6 +429,7 @@ const CreateArticle = (e) => {
   image = document.querySelector('.upload-img-input').files[0];
   title = document.querySelector('.upload-input-title').value;
   content = document.querySelector('.upload-textarea').value;
+  Authorization = localStorage.getItem('access_token')
   let formData = new FormData();
   formData.append('image', image);
   formData.append('title', title);
@@ -423,11 +438,14 @@ const CreateArticle = (e) => {
   // ajax통신
   fetch("http://127.0.0.1:8000/article/create/", {
     method: 'POST',
+    headers: {
+      "authorization": Authorization
+    },
     body: formData
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    location.href = "http://127.0.0.1:5501/index.html";
+    location.href = "http://127.0.0.1:5501/";
   }).catch((error) => {
     console.log('error', error);
   })

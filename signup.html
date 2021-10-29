@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/453205446a.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+
+  <title>오늘 뭐했지 ?</title>
+  <!-- <script src="js/main.js" defer></script> -->
+  <script src="js/login.js" defer></script>
+</head>
+
+<body>
+  <!-- 등록 모달창 -->
+  <div class="modal-signup-layer">
+    <article class="signup-modal-box">
+      <h2 class="upload-title a11y-hidden">로그인 모달창</h2>
+      <p class="signup-description">
+        <img class="signup-main-img" src="img/오늘 머했지.png"></img>
+        <h3 class="signup-logo">Signup</h3>
+        <p class="signup-form">
+          <input type="text" class="username" name="username" placeholder="아이디 입력"><br>
+          <input type="password" class="password" name="password" placeholder="pwd 입력"><br>
+          <button class="signup-btn" onclick="SignUp()">회원가입하기</button>
+        </p>
+        <div class="signin-div">
+          <a href="http://127.0.0.1:5501/login.html" class="signin">로그인하러가기</a>
+        </div>
+        <a class="signup-a" href="" onclick="kakaoLogin()">
+          <div class="kakao-btn">
+            <i class="fas fa-comment"></i><span class="kakao-span">카카오계정으로 로그인</span>
+          </div>
+        </a>
+      </p>
+
+    </article>
+  </div>
+  <section class="signup-main">
+
+  </section>
+  
+</body>
+
+
+</html>
