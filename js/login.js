@@ -14,9 +14,9 @@ const Login = () => {
       return response.json()
     }).then(function (data) {
       localStorage.setItem('access_token',data['token'])
-      getTodos();
+      // getTodos();
+      window.location.replace("http://127.0.0.1:5501/");
       return data
-      
     }).catch((error) => {
       console.log('error', error);
     })
