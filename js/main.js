@@ -26,7 +26,7 @@ let item = "";
 
 const renderDetail = (item) => {
   Authorization = localStorage.getItem('access_token')
-  fetch(`https://daily-diary.netlify.app/article/detail?id=${item}&`, {
+  fetch(`https://127.0.0.1:8000/article/detail?id=${item}&`, {
     method: 'GET',
     headers : {
       "authorization": Authorization
@@ -229,6 +229,7 @@ const scrollDetail = () => {
 }
 
 $mainItems.onclick = e => {
+  console.log('흠')
   if (e.target.classList.contains('far')) {
     item = e.target.parentNode.classList[1].slice(7);
     deleteItem(item);
@@ -236,6 +237,7 @@ $mainItems.onclick = e => {
   if (e.target.classList.contains('img')) {
     $detail.style.display = 'block';
     item = e.target.parentNode.classList[1].slice(7)
+    console.log('흠')
     renderDetail(item);
     scrollDetail();
   }
