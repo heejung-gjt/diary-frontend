@@ -26,7 +26,7 @@ let item = "";
 
 const renderDetail = (item) => {
   Authorization = localStorage.getItem('access_token')
-  fetch(`http://127.0.0.1:8000/article/detail?id=${item}&`, {
+  fetch(`https://daily-diary.netlify.app/article/detail?id=${item}&`, {
     method: 'GET',
     headers : {
       "authorization": Authorization
@@ -91,11 +91,9 @@ const renderDetail = (item) => {
 
 const getTodos = () => {
   if (localStorage.getItem('access_token') ==  null){
-    window.location.replace("http://127.0.0.1:5501/login.html");
+    window.location.replace("https://daily-diary.netlify.app/login.html");
   }
   Authorization = localStorage.getItem('access_token')
-  console.log(Authorization)
-  console.log('안뇽......')
   fetch("http://127.0.0.1:8000/", {
     method: 'GET',
     headers: {
@@ -445,7 +443,7 @@ const CreateArticle = (e) => {
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    location.href = "http://127.0.0.1:5501/";
+    location.href = "https://daily-diary.netlify.app/";
   }).catch((error) => {
     console.log('error', error);
   })
