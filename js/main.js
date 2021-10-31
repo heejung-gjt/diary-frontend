@@ -26,7 +26,7 @@ let item = "";
 
 const renderDetail = (item) => {
   Authorization = localStorage.getItem('access_token')
-  fetch(`https://127.0.0.1:8000/article/detail?id=${item}&`, {
+  fetch(`http://127.0.0.1:8000/article/detail?id=${item}&`, {
     method: 'GET',
     headers : {
       "authorization": Authorization
