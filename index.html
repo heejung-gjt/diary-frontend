@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>오늘 뭐했지 ?</title>
+    <script src="js/login.js" defer></script>
     <script src="js/main.js" defer></script>
 </head>
 
@@ -40,7 +41,11 @@
     </div>
     <!-- 메인 화면 -->
     <section class="main">
-        <div class="main-user-infor"></div>
+        <div class="main-user-infor">
+            <p class="main-infor"></p>
+            <p class="main-user-invite"><button class="invite">함께하기</button></p>
+            <p class="main-user-logout"><button class="logout" onclick="Logout()">로그아웃</button></p>
+        </div>
         <div class="main-box">
             <h1 class="main-title">오늘 뭐했지?</h1>
             <p class="main-description">찰나의 순간을 기록하고 싶은<span>모든 이들을 위하여</span></p>
