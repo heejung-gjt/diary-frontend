@@ -103,9 +103,8 @@ const getTodos = () => {
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    console.log(data['user'][0]['userid'])
-    console.log(data)
-    document.querySelector('.main-user-infor').innerText = `환영해요 ! ${data['user'][0]['userid']}님`
+    document.querySelector('.main-infor').innerText = `환영해요 ! ${data['user'][0]['userid']}님`
+
     for (let i = 0; i < data['articles'].length; i++) {
       let create_date = new Date(parseInt(data['articles'][i]['created_at']) * 1000);
       create_date = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate()

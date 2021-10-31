@@ -28,10 +28,18 @@ const Login = () => {
 const SignUp = () => {
   $username = document.querySelector('.username').value;
   $password = document.querySelector('.password').value;
-  
+  $passwordChk = document.querySelector('.password-chk').value;
+  if ($username == '' || $passwordChk == '' || $passwordChk == ''){
+    alert('모든 내용을 입력해주세요 !');
+    return
+  }
+  else if ($password != $passwordChk){
+    alert('비밀번호가 다릅니다. 확인해주세요 !');
+    return
+  }
   param = {
     'username': $username,
-    'password': $password
+    'password': $password,
   }
     fetch("http://127.0.0.1:8000/user/signup/", {
       method: 'POST',
@@ -39,6 +47,13 @@ const SignUp = () => {
     }).then(function (response) {
       return response.json()
     }).then(function (data) {
+      if (data['error']){
+        $username = ' ';
+        $password = ' ';
+        $passwordChk = ' ';
+        alert(`${data['error']}`)
+        return
+      }
       location.href = "https://daily-diary.netlify.app/login.html";
       return data
       
@@ -54,22 +69,30 @@ const kakaoLogin = () => {
   //카카오로그인
       Kakao.Auth.authorize({
         success: function (response) {
-          console.log('흠냐')
           Kakao.API.request({
             url: '/v2/user/me',
             success: function (response) {
-              console.log('흠냐')
               console.log(response)
             },
             fail: function (error) {
-              console.log('흠냐')
               console.log(error)
             },
           })
         },
         fail: function (error) {
-          console.log('흠냐')
           console.log(error)
         },
       })
     } 
+
+
+const Logout = () => {
+  if (confirm('정말 로그아웃 하시겠어요 ?') == true){
+    localStorage.removeItem('access_token');
+    alert('로그아웃 성공 !')
+    location.href = "https://daily-diary.netlify.app/login.html";
+  }
+  else{
+    return;
+  }
+}
