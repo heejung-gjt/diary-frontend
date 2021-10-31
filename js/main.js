@@ -26,7 +26,7 @@ let item = "";
 
 const renderDetail = (item) => {
   Authorization = localStorage.getItem('access_token')
-  fetch(`http://127.0.0.1:8000/article/detail?id=${item}&`, {
+  fetch(`https://djangodailydiary.herokuapp.com/article/detail?id=${item}&`, {
     method: 'GET',
     headers : {
       "authorization": Authorization
@@ -94,7 +94,7 @@ const getTodos = () => {
     window.location.replace("https://daily-diary.netlify.app/login.html");
   }
   Authorization = localStorage.getItem('access_token')
-  fetch("http://127.0.0.1:8000/", {
+  fetch("https://djangodailydiary.herokuapp.com/", {
     method: 'GET',
     headers: {
       
@@ -189,7 +189,7 @@ const deleteItem = (id) => {
   param = {
     'id': id
   }
-  fetch("http://127.0.0.1:8000/article/delete/", {
+  fetch("https://djangodailydiary.herokuapp.com/article/delete/", {
     method: 'POST',
     headers: {
       "authorization" : Authorization
@@ -319,7 +319,7 @@ detailConfirmButton = (id) => {
     editedDate = editedDate.toISOString().slice(0, 10);
     toggleDetailClass();
 
-    fetch("http://127.0.0.1:8000/article/update/", {
+    fetch("https://djangodailydiary.herokuapp.com/article/update/", {
       method: 'POST',
       body: formData
     }).then(function (response) {
@@ -435,7 +435,7 @@ const CreateArticle = (e) => {
   formData.append('content', content);
 
   // ajax통신
-  fetch("http://127.0.0.1:8000/article/create/", {
+  fetch("https://djangodailydiary.herokuapp.com/article/create/", {
     method: 'POST',
     headers: {
       "authorization": Authorization
