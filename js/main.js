@@ -306,7 +306,7 @@ detailConfirmButton = (id) => {
 
     editedDate = editedDate.toISOString().slice(0, 10);
     toggleDetailClass();
-    fetch(`https://djangodailydiary.herokuapp.com/article/${id}/`, {
+    fetch(`https://djangodailydiary.herokuapp.com/article/${id}`, {
     // fetch(`http://127.0.0.1:8000/article/${id}`, {
       method: 'POST',
       headers: {

@@ -8,7 +8,7 @@ const Login = () => {
     'username': $username.value,
     'password': $password.value
   }
-    fetch("https://djangodailydiary.herokuapp.com/user/signin/", {
+    fetch("https://djangodailydiary.herokuapp.com/user/signin", {
     // fetch("http://127.0.0.1:8000/user/signin", {
 
       method: 'POST',
@@ -47,7 +47,7 @@ const SignUp = () => {
     'username': $username.value,
     'password': $password.value,
   }
-    fetch("https://djangodailydiary.herokuapp.com/user/signup/", {
+    fetch("https://djangodailydiary.herokuapp.com/user/signup", {
     // fetch('http://127.0.0.1:8000/user/signup', {
 
       method: 'POST',
