@@ -6,12 +6,15 @@ const $detailBtn = document.querySelector('.detail-btn');
 const $buttonsConfirmSubmit = document.querySelector('.buttons-confirm-submit');
 const $buttonsConfirmCancel = document.querySelector('.buttons-confirm-cancel');
 const $detailContent = document.querySelector('.detail-content');
+
 // 등록버튼, 등록 모달 창 레이어
 const $mainSubmit = document.querySelector('.main-submit');
 const $modalUploadLayer = document.querySelector('.modal-upload-layer');
+
 // x버튼, 모달 창
 const $closeButton = document.querySelector('.fa-times-circle');
 const $modalUpload = document.querySelector('.modal-upload');
+
 // add
 const $uploadAddButton = document.querySelector('.upload-add-button');
 const $uploadInputTitle = document.querySelector('.upload-input-title');
@@ -20,16 +23,26 @@ const $uploadModifyImgInput = document.querySelector('.profile-upload-img-input'
 const $uploadModifyPreviewImg = document.querySelector('.profile-upload-preview-img');
 const $profileUploadImg = document.querySelector('.profile-upload-img');
 
+
 let todos = [];
 let item = "";
 
 
+// 함께하기 클릭시
+const Together = () =>{
+  alert('업데이트 중입니다 :-)');
+}
+
+
+// 글 디테일 보기
 const renderDetail = (item) => {
-  Authorization = localStorage.getItem('access_token')
+  console.log('itmem',item)
+  Authorization = localStorage.getItem('Authorization')
   fetch(`https://djangodailydiary.herokuapp.com/article/detail?id=${item}&`, {
+  // fetch(`http://127.0.0.1:8000/article/detail?article_id=${item}`, {
     method: 'GET',
     headers : {
-      "authorization": Authorization
+      "Authorization": Authorization
     },
   }).then(function (response) {
     return response.json()
@@ -43,10 +56,10 @@ const renderDetail = (item) => {
     }
     $detailContent.innerHTML =
       `<li>
-  <img class="detail-img" src="${data['article'][0]['image']}" alt="올린이미지">
+  <img class="detail-img" src="${data['article'][0]['image']}" alt="올린이미지" onerror="this.src='img/img5.png'">
   <div class="profile-upload-img">
     <input class="profile-upload-img-input" type="file" name="image" width="50" ><br>
-    <img src="" class="profile-upload-preview-img" onerror="this.src='${data['article'][0]['image']}'" onclick="ModifyImgInput(event)">
+    <img src="" class="profile-upload-preview-img" onerror="this.src='${data['article'][0]['image']}'" onclick="ModifyImgInput(event)" onerror="this.src='img/img5.png'">
   </div>
   </li>
   <li class="detail-content-title">
@@ -90,28 +103,30 @@ const renderDetail = (item) => {
 }
 
 const getTodos = () => {
-  if (localStorage.getItem('access_token') ==  null){
+  if (localStorage.getItem('Authorization') ==  null){
+    // window.location.replace("http://127.0.0.1:5501/login.html");
     window.location.replace("https://daily-diary.netlify.app/login.html");
   }
-  Authorization = localStorage.getItem('access_token')
-  fetch("https://djangodailydiary.herokuapp.com/", {
+
+  Authorization = localStorage.getItem('Authorization')
+  fetch("https://djangodailydiary.herokuapp.com/article", {
+  // fetch("http://127.0.0.1:8000/article", {
     method: 'GET',
     headers: {
       
-      "authorization":Authorization,
+      "Authorization":Authorization,
     },
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
-    document.querySelector('.main-infor').innerText = `환영해요 ! ${data['user'][0]['userid']}님`
+    document.querySelector('.main-infor').innerText = `환영해요 ! ${data['user']}님`
 
     for (let i = 0; i < data['articles'].length; i++) {
       let create_date = new Date(parseInt(data['articles'][i]['created_at']) * 1000);
       create_date = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate()
-      console.log(data['articles'][i]['id'])
       $mainItems.innerHTML +=
         `<li class="li-item li-item${data['articles'][i]['id']}">
-      <img src="${data['articles'][i]['image']}" alt="item이미지" class="img">
+      <img src="${data['articles'][i]['image']}" alt="item이미지" class="img" onerror="this.src='img/img5.png'">
       <span class="far fa-times-circle item-close" onclick = deleteItem('${data['articles'][i]['id']}')></span>
       <span class="li-date">${create_date}</span>
       <span class="li-title">${data['articles'][i]['title']}</span>
@@ -160,41 +175,21 @@ $uploadImgInput.onchange = (e) => {
   reader.readAsDataURL(imgFile);
 }
 
-// function UploadImg(event){
-//   $uploadPreviewImg.click();
-//   }
-
 // 모달창 + 이미지 선택시 이미지 업로드 기능
 $uploadPreviewImg.onclick = () => {
   $uploadImgInput.click();
 }
 
-// add
-const addTodo = (title, content, date, img) => {
-  const todo = {
-    id: Math.max(...todos.map(todo => todo.id), 0) + 1,
-    title,
-    content,
-    date,
-    img
-  };
-  todos = [todo, ...todos];
-  render();
-};
-
 // x버튼 클릭 시 item 삭제
 const deleteItem = (id) => {
-  Authorization = localStorage.getItem('access_token')
-
-  param = {
-    'id': id
-  }
-  fetch("https://djangodailydiary.herokuapp.com/article/delete/", {
-    method: 'POST',
+  Authorization = localStorage.getItem('Authorization')
+  
+  fetch(`https://djangodailydiary.herokuapp.com/article/delete/${id}`, {
+  // fetch(`http://127.0.0.1:8000/article/delete/${id}`, {
+    method: 'DELETE',
     headers: {
-      "authorization" : Authorization
-    },
-    body: JSON.stringify(param)
+      "Authorization" : Authorization
+    }
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
@@ -204,7 +199,7 @@ const deleteItem = (id) => {
       create_date = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate()
       $mainItems.innerHTML +=
         `<li class="li-item li-item${data['articles'][i]['id']}">
-      <img src="${data['articles'][i]['image']}" alt="item이미지" class="img">
+      <img src="${data['articles'][i]['image']}" alt="item이미지" class="img", onerror="this.src='img/img5.png'">
       <span class="far fa-times-circle item-close" onclick = deleteItem('${data['articles'][i]['id']}')></span>
       <span class="li-date">${create_date}</span>
       <span class="li-title">${data['articles'][i]['title']}</span>
@@ -228,7 +223,6 @@ const scrollDetail = () => {
 }
 
 $mainItems.onclick = e => {
-  console.log('흠')
   if (e.target.classList.contains('far')) {
     item = e.target.parentNode.classList[1].slice(7);
     deleteItem(item);
@@ -236,7 +230,6 @@ $mainItems.onclick = e => {
   if (e.target.classList.contains('img')) {
     $detail.style.display = 'block';
     item = e.target.parentNode.classList[1].slice(7)
-    console.log('흠')
     renderDetail(item);
     scrollDetail();
   }
@@ -281,9 +274,6 @@ $detailChangeButton.onclick = () => {
 
 
 // 사진업로드(글 수정시에 )
-
-// reader = '';
-
 $uploadModifyImgInput.onchange = (e) => {
   const imgFile = e.target.files[0];
   let reader = new FileReader();
@@ -304,12 +294,10 @@ detailConfirmButton = (id) => {
   let image = $uploadModifyImgInput.files[0]; // 위에서 선언한 input사용, 재선언 안됨
   let title = document.querySelector('.detail-input-title').value;
   let content = document.querySelector('.detail-textarea').value;
-  console.log('내용ㅇ들', image, title, content)
   let formData = new FormData();
   formData.append('image', image);
   formData.append('title', title);
   formData.append('content', content);
-  formData.append('id', id)
 
   if (!title || !content) {
     alert('제목과 내용을 작성해주세요');
@@ -318,17 +306,21 @@ detailConfirmButton = (id) => {
 
     editedDate = editedDate.toISOString().slice(0, 10);
     toggleDetailClass();
-
-    fetch("https://djangodailydiary.herokuapp.com/article/update/", {
+    fetch(`https://djangodailydiary.herokuapp.com/article/${id}/`, {
+    // fetch(`http://127.0.0.1:8000/article/${id}`, {
       method: 'POST',
+      headers: {
+        "Authorization" : Authorization
+      },
       body: formData
     }).then(function (response) {
       return response.json()
     }).then(function (data) {
       let create_date = new Date(parseInt(data['article'][0]['created_at']) * 1000);
-      create_date = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate() + " " + create_date.getHours() + ":" + create_date.getMinutes()
+      let created_at = create_date.getFullYear() + "/" + (create_date.getMonth() + 1) + "/" + create_date.getDate() + " " + create_date.getHours() + ":" + create_date.getMinutes()
       let update_date = new Date(parseInt(data['article'][0]['updated_at']) * 1000);
       update_date = update_date.getFullYear() + "/" + (update_date.getMonth() + 1) + "/" + update_date.getDate() + " " + update_date.getHours() + ":" + update_date.getMinutes()
+      
       $detailContent.innerHTML =
         `<li>
     <img class="detail-img" src="${data['article'][0]['image']}" alt="올린이미지">
@@ -343,7 +335,7 @@ detailConfirmButton = (id) => {
     <span class="toggle detail-span-title">${data['article'][0]['title']}</span>
     <div class="toggle detail-date">
     <span class="detail-span-date"><span class="far fa-calendar"></span>posted
-      on<span class="date-underline">${create_date}</span></span><span class="detail-span-edited"><span
+      on<span class="date-underline">${created_at}</span></span><span class="detail-span-edited"><span
         class="far fa-calendar-check"></span>Edited on<span
         class="date-underline edited-date">${update_date}</span></span>
     </div>
@@ -367,6 +359,7 @@ detailConfirmButton = (id) => {
       document.querySelector('.detail-span-textarea').style.display = "inline-block";
       document.querySelector('.detail-change-button').style.display = "inline-block";
       document.querySelector('.profile-upload-img').style.display='none';
+      
       const $editedDate = document.querySelector('.edited-date');
       const $detailSpanEdited = document.querySelector('.detail-span-edited');
       $detailSpanEdited.style.display = $editedDate.textContent === "undefined" ? "none" : "inline-block";
@@ -375,10 +368,9 @@ detailConfirmButton = (id) => {
       console.log('error', error);
     })
 
-    // modifyTodo(modifiedTitle, modifiedContent, editedDate);
     title = "";
     content = "";
-    // $detailBtn.style.display = 'inline-block';
+
     $buttonsConfirmSubmit.style.display = 'none';
     $buttonsConfirmCancel.style.display = 'none';
     $detailChangeButton.style.display = 'inline-block';
@@ -390,22 +382,28 @@ detailConfirmButton = (id) => {
 detailCancelButton = () => {
   toggleDetailClass();
   renderDetail(item);
+
   $buttonsConfirmSubmit.style.display = 'none';
   $buttonsConfirmCancel.style.display = 'none';
+  
   document.querySelector('.profile-upload-img').style.display='none';
   document.querySelector('.detail-img').style.display = 'block';
 }
 
 // 서치 동적 기능
 const $mainInput = document.querySelector('.main-input');
+
 $mainInput.oninput = () => {
   const $liItems = document.querySelectorAll('.li-item');
+  
   $liItems.forEach(liItem => {
     let name = liItem.querySelector(".li-title");
     let calender = liItem.querySelector(".li-date");
+    
     if (name.innerHTML.indexOf($mainInput.value) > -1 || calender.innerHTML.indexOf($mainInput.value) > -1) {
       liItem.style.display = 'block';
-    } else {
+    } 
+    else {
       liItem.style.display = 'none';
     }
   })
@@ -414,8 +412,9 @@ $mainInput.oninput = () => {
 
 const ArticleSubmit = (e) => {
   e.preventDefault();
+
   if (!$uploadInputTitle.value || !$uploadTextarea.value || !reader.result) {
-    alert('제목과 내용, 이미지 모두 입력해주세요.')
+    alert('제목과 내용, 이미지를 모두 입력해주세요.')
     return
   }
 
@@ -425,25 +424,28 @@ const ArticleSubmit = (e) => {
 
 const CreateArticle = (e) => {
   e.preventDefault();
-  image = document.querySelector('.upload-img-input').files[0];
-  title = document.querySelector('.upload-input-title').value;
-  content = document.querySelector('.upload-textarea').value;
-  Authorization = localStorage.getItem('access_token')
+  let image = document.querySelector('.upload-img-input').files[0];
+  let title = document.querySelector('.upload-input-title').value;
+  let content = document.querySelector('.upload-textarea').value;
+  const Authorization = localStorage.getItem('Authorization');
+
   let formData = new FormData();
   formData.append('image', image);
   formData.append('title', title);
   formData.append('content', content);
 
   // ajax통신
-  fetch("https://djangodailydiary.herokuapp.com/article/create/", {
+  fetch("https://djangodailydiary.herokuapp.com/article", {
+  // fetch("http://127.0.0.1:8000/article", {
     method: 'POST',
     headers: {
-      "authorization": Authorization
+      "Authorization": Authorization
     },
     body: formData
   }).then(function (response) {
     return response.json()
   }).then(function (data) {
+    // location.href = "http://127.0.0.1:5501/";
     location.href = "https://daily-diary.netlify.app/";
   }).catch((error) => {
     console.log('error', error);
