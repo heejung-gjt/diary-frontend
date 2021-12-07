@@ -38,7 +38,7 @@ const Together = () =>{
 const renderDetail = (item) => {
   console.log('itmem',item)
   Authorization = localStorage.getItem('Authorization')
-  fetch(`https://djangodailydiary.herokuapp.com/article/detail?id=${item}&`, {
+  fetch(`https://djangodailydiary.herokuapp.com/article/detail?article_id=${item}&`, {
   // fetch(`http://127.0.0.1:8000/article/detail?article_id=${item}`, {
     method: 'GET',
     headers : {
